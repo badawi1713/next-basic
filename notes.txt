@@ -1,0 +1,9 @@
+* folder structure:
+1. node_modules folder: all dependencies are stored
+2. pages folder: diferent page components are created
+3. public folder: public assets are stored
+4. styles folder: all styles like css are stored
+
+to run next.js
+
+yarn dev
