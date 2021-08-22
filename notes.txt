@@ -1,9 +1,97 @@
-* folder structure:
+#1 folder structure:
 1. node_modules folder: all dependencies are stored
 2. pages folder: diferent page components are created
 3. public folder: public assets are stored
 4. styles folder: all styles like css are stored
 
-to run next.js
+#2 to run next.js: yarn dev
 
-yarn dev
+#3 pages & routes
+you can add page with automatically routes in Next.js: yarn
+- create file in pages folder
+- then add component as page file, like about.js
+- open your browser and type url/about
+- it will open the about page :D
+
+#4 routes for sub-folder
+url/ninjas/test
+url/ninjas : for index.js in ninjas folder
+
+#5 creating components folder in root folder
+/components
+
+#6 Linking between pages
+use special component called the Link component from Next.js
+import Link from 'next/link'
+<Link href='/home'><a>Home</a></Link>
+
+#7 Adding styles with css
+add css files in styles folder
+
+#8 Add custom 404 page
+add 404.js in pages folder
+
+#9 Redirecting user with useEffect
+with React u can useHistory to redirect page, but in Next u can use useRouter to redirect the page.
+import {useRouter} from 'next/router'
+const router = useRouter()
+router.push('/path')
+
+#10 Images and Metadata
+for images you can use <img /> tag or from Next v.10, 
+import Image from 'next/image'
+<Image src='/logo.png' width={number} height={number} /> : Width and Height must be filled
+for Metadata on each page, like document.title u can use
+import Head from 'next/head'
+<Head>
+<title>Home</title>
+<meta name='keywords content='dzaky'  /> //for better SEO
+</Head>
+
+#11 Fetching data with getStaticProps //only works in PAGE COMPONENT ONLY!
+create async function to fetch data from an api like this on page component
+export const getStaticProps = async () => {
+  // *can't run in the browser?
+  const response = await fetch('https://jsonplaceholder.typicode.com/users')
+  const data = await response.json()
+
+  return {
+    props: {
+      ninjas: data
+    }
+  }
+}
+
+then pass it like props on the component like usual
+const Ninjas = ({ninjas}) => {...}
+
+#12 Dynamic Routes and use getStaticPaths for Dynamic routes
+like url/ninjas/:id // url/ninjas/1as82
+example:
+add [id].js file in ninjas folder
+
+// details page at build time for getStaticPaths can be used on details page!
+export const getStaticPaths = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users')
+  const data = await response.json()
+
+  const paths = data.map(item => {
+    return {
+      params: { id: item.id.toString() }
+    }
+  })
+
+    return {
+        paths,
+        fallback: false
+  }
+}
+
+#13 Fetching single item
+u can use getStaticProps again, for ID u can use context as params
+export const getStaticProps = async context => {
+  const id = context.params.id
+  ... }
+
+#14 Build App + deploy freely on vercel.com
+yarn run build
